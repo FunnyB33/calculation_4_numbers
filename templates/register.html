@@ -1,0 +1,15 @@
+<!-- templates/register.html -->
+
+{% extends "base.html" %}
+{% block title %}ユーザー登録{% endblock %}
+{% block content %}
+<div class="container">
+    <h1>ユーザー登録</h1>
+    <form method="post">
+        <input type="text" name="username" placeholder="ユーザー名" required>
+        <input type="password" name="password" placeholder="パスワード" required>
+        <button type="submit">登録</button>
+    </form>
+    <p>既にアカウントをお持ちですか？ <a href="{{ url_for('login') }}">ログイン</a></p>
+</div>
+{% endblock %}

@@ -1,0 +1,152 @@
+/* static/style.css */
+
+/* 背景の設定 */
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', sans-serif;
+    background: linear-gradient(135deg, #000428 0%, #004e92 100%);
+    color: #fff;
+}
+
+/* コンテナのスタイル */
+.container {
+    width: 90%;
+    max-width: 800px;
+    margin: 50px auto;
+    background: rgba(0, 0, 0, 0.6);
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+/* タイトルのスタイル */
+h1 {
+    text-align: center;
+    font-size: 36px;
+    margin-bottom: 30px;
+    color: #00d4ff;
+    text-shadow: 0 0 10px #00d4ff;
+}
+
+/* 入力フォームのスタイル */
+.input-group {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 20px;
+}
+
+.input-group input {
+    width: 22%;
+    padding: 15px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    background: rgba(255, 255, 255, 0.1);
+    color: #fff;
+    outline: none;
+    text-align: center;
+}
+
+.input-group:first-child input {
+    width: 100%;
+}
+
+.input-group input::placeholder {
+    color: #aaa;
+}
+
+/* ボタンのスタイル */
+button[type="submit"], #back-button {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(45deg, #21d4fd 0%, #b721ff 100%);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 20px;
+    cursor: pointer;
+    margin-top: 20px;
+    transition: background 0.5s;
+}
+
+button[type="submit"]:hover, #back-button:hover {
+    background: linear-gradient(45deg, #b721ff 0%, #21d4fd 100%);
+}
+
+/* スピナーのスタイル */
+.spinner {
+    display: none;
+    width: 100%;
+    text-align: center;
+}
+
+.loader {
+    font-size: 24px;
+    color: #00d4ff;
+    text-shadow: 0 0 10px #00d4ff;
+    margin-top: 50px;
+    animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% {
+        text-shadow: 0 0 10px #00d4ff;
+    }
+    50% {
+        text-shadow: 0 0 20px #00d4ff;
+    }
+}
+
+/* 結果表示のスタイル */
+.result-header p {
+    font-size: 22px;
+    margin: 10px 0;
+}
+
+.result-header span {
+    font-weight: bold;
+    color: #00d4ff;
+}
+
+.no-result {
+    font-size: 24px;
+    text-align: center;
+    margin: 30px 0;
+}
+
+.expressions {
+    max-height: 300px;
+    overflow-y: auto;
+    margin-top: 20px;
+    padding-right: 10px;
+}
+
+.expression {
+    display: flex;
+    font-size: 20px;
+    margin-bottom: 10px;
+}
+
+.expression span:first-child {
+    width: 50px;
+    color: #00d4ff;
+}
+
+.expression span:last-child {
+    flex-grow: 1;
+}
+
+/* スクロールバーのスタイル（オプション） */
+.expressions::-webkit-scrollbar {
+    width: 6px;
+}
+
+.expressions::-webkit-scrollbar-thumb {
+    background: #00d4ff;
+    border-radius: 3px;
+}
+
+.expressions::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+}
