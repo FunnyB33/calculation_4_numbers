@@ -6,7 +6,7 @@ from models import db, User, CalculationHistory
 from calculation import calculation
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 990328  # 適切なシークレットキーに置き換えてください
+app.config['SECRET_KEY'] = "Onigiri8989"  # 適切なシークレットキーに置き換えてください
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 db.init_app(app)
 
