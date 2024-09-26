@@ -1,5 +1,9 @@
 /* static/style.css */
 
+/* 既存のスタイルはそのままです。必要な部分にメディアクエリを追加します。 */
+
+/* --- 共通スタイル --- */
+
 /* 背景の設定 */
 body {
     margin: 0;
@@ -149,4 +153,146 @@ button[type="submit"]:hover, #back-button:hover {
 
 .expressions::-webkit-scrollbar-track {
     background: rgba(255, 255, 255, 0.1);
+}
+
+/* ログアウトリンクのスタイル */
+.logout {
+    text-align: right;
+    margin-bottom: 20px;
+}
+
+.logout p {
+    font-size: 18px;
+}
+
+/* ヒストリーのスタイル */
+.history {
+    margin-top: 40px;
+}
+
+.history h2 {
+    font-size: 28px;
+    margin-bottom: 20px;
+    text-align: center;
+    color: #00d4ff;
+    text-shadow: 0 0 10px #00d4ff;
+}
+
+.history ul {
+    list-style-type: none;
+    padding: 0;
+}
+
+.history li {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 15px;
+    border-radius: 5px;
+    margin-bottom: 20px;
+}
+
+.history li p {
+    font-size: 18px;
+    margin: 5px 0;
+}
+
+.history details {
+    margin-top: 10px;
+}
+
+/* --- メディアクエリの追加 --- */
+
+@media screen and (max-width: 768px) {
+    /* コンテナの幅とパディングを調整 */
+    .container {
+        width: 95%;
+        padding: 20px;
+    }
+
+    /* タイトルのフォントサイズを調整 */
+    h1 {
+        font-size: 28px;
+    }
+
+    /* 入力フィールドを縦並びにする */
+    .input-group {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .input-group input {
+        width: 100%;
+        margin-bottom: 15px;
+    }
+
+    /* ボタンのフォントサイズとパディングを調整 */
+    button[type="submit"], #back-button {
+        font-size: 18px;
+        padding: 12px;
+    }
+
+    /* 結果表示のフォントサイズを調整 */
+    .result-header p, .expression {
+        font-size: 18px;
+    }
+
+    .expression span:first-child {
+        width: 40px;
+    }
+
+    /* スクロールバーの幅を調整 */
+    .expressions::-webkit-scrollbar {
+        width: 4px;
+    }
+
+    /* ログアウトリンクのスタイル調整 */
+    .logout p {
+        font-size: 16px;
+    }
+
+    /* ヒストリーの見出しを調整 */
+    .history h2 {
+        font-size: 24px;
+    }
+
+    /* ヒストリー項目のフォントサイズを調整 */
+    .history li p {
+        font-size: 16px;
+    }
+}
+
+/* さらに小さい画面に対する調整 */
+@media screen and (max-width: 480px) {
+    /* タイトルのフォントサイズをさらに小さく */
+    h1 {
+        font-size: 24px;
+    }
+
+    /* ボタンのフォントサイズを調整 */
+    button[type="submit"], #back-button {
+        font-size: 16px;
+        padding: 10px;
+    }
+
+    /* テキストのフォントサイズを調整 */
+    .result-header p, .expression {
+        font-size: 16px;
+    }
+
+    .expression span:first-child {
+        width: 35px;
+    }
+
+    /* ログアウトリンクのフォントサイズを調整 */
+    .logout p {
+        font-size: 14px;
+    }
+
+    /* ヒストリーの見出しとテキストのフォントサイズを調整 */
+    .history h2 {
+        font-size: 20px;
+    }
+
+    .history li p {
+        font-size: 14px;
+    }
 }
