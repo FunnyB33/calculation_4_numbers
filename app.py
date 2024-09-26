@@ -1,12 +1,12 @@
 # app.py
 
-from flask import Flask, render_template, request, redirect, url_for, flash
+from flask import Flask, render_template, request, redirect, url_for, flash, abort
 from flask_login import LoginManager, login_user, logout_user, login_required, current_user
 from models import db, User, CalculationHistory
 from calculation import calculation
 
 app = Flask(__name__)
-app.config['SECRET_KEY'] = 'your_secret_key'  # 適切なシークレットキーに置き換えてください
+app.config['SECRET_KEY'] = 990328  # 適切なシークレットキーに置き換えてください
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///app.db'
 db.init_app(app)
 
@@ -23,7 +23,6 @@ with app.app_context():
     db.create_all()
 
 @app.route('/', methods=['GET', 'POST'])
-@login_required
 def index():
     result = None
     expressions = []
@@ -40,18 +39,22 @@ def index():
             nums = [int(a), int(b), int(c), int(d)]
             result, expressions = calculation(*nums, target_num)
 
-            # 計算結果をデータベースに保存
-            calc_history = CalculationHistory(
-                target=target_num,
-                numbers=','.join(map(str, nums)),
-                result=result,
-                expressions='\n'.join(expressions),
-                user_id=current_user.id
-            )
-            db.session.add(calc_history)
-            db.session.commit()
-    # ユーザーの過去の計算履歴を取得
-    histories = current_user.calculations.order_by(CalculationHistory.id.desc()).all()
+            # ユーザーがログインしている場合のみ計算結果をデータベースに保存
+            if current_user.is_authenticated:
+                calc_history = CalculationHistory(
+                    target=target_num,
+                    numbers=','.join(map(str, nums)),
+                    result=result,
+                    expressions='\n'.join(expressions),
+                    user_id=current_user.id
+                )
+                db.session.add(calc_history)
+                db.session.commit()
+    # ユーザーがログインしている場合のみ計算履歴を取得
+    if current_user.is_authenticated:
+        histories = current_user.calculations.order_by(CalculationHistory.id.desc()).all()
+    else:
+        histories = []
     return render_template('index.html', result=result, expressions=expressions, target=target, a=a, b=b, c=c, d=d, histories=histories)
 
 @app.route('/register', methods=['GET', 'POST'])
@@ -92,6 +95,18 @@ def logout():
     logout_user()
     flash('ログアウトしました。')
     return redirect(url_for('login'))
+
+@app.route('/delete_history/<int:history_id>', methods=['POST'])
+@login_required
+def delete_history(history_id):
+    history = CalculationHistory.query.get_or_404(history_id)
+    # ユーザーの所有権を確認
+    if history.user_id != current_user.id:
+        abort(403)
+    db.session.delete(history)
+    db.session.commit()
+    flash('計算履歴を削除しました。')
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)

@@ -5,73 +5,103 @@
 {% block content %}
 <div class="container">
     <h1>数を作る計算機</h1>
+    {% if current_user.is_authenticated %}
     <div class="logout">
         <p>ログイン中: {{ current_user.username }} | <a href="{{ url_for('logout') }}">ログアウト</a></p>
     </div>
-    <form id="calc-form" method="post" data-result-exists="{{ 'true' if result is not none else 'false' }}">
-        <div class="input-group">
-            <input type="number" name="target" required placeholder="作りたい数字">
+    {% else %}
+    <div class="login-prompt">
+        <p><a href="{{ url_for('login') }}">ログイン</a>すると、計算履歴を保存・閲覧できます。</p>
+    </div>
+    {% endif %}
+
+    <!-- フォームとテンキーを包むコンテナ -->
+    <div class="form-and-keypad">
+        <!-- 計算フォーム -->
+        <form id="calc-form" method="post" data-result-exists="{{ 'true' if result is not None else 'false' }}">
+            <div class="input-group">
+                <input type="number" name="target" required placeholder="作りたい数字" value="{{ target }}">
+            </div>
+            <div class="input-group">
+                <input type="number" name="a" required placeholder="数字1" value="{{ a }}">
+                <input type="number" name="b" required placeholder="数字2" value="{{ b }}">
+                <input type="number" name="c" required placeholder="数字3" value="{{ c }}">
+                <input type="number" name="d" required placeholder="数字4" value="{{ d }}">
+            </div>
+            <button type="submit">計算する</button>
+        </form>
+
+        <!-- テンキーコンテナ（デスクトップ表示） -->
+        <div class="keypad-container">
+            <div class="keypad">
+                {% for num in range(9, -1, -1) %}
+                <button class="keypad-button" data-number="{{ num }}">{{ num }}</button>
+                {% if num % 3 == 0 %}
+                <br>
+                {% endif %}
+                {% endfor %}
+            </div>
         </div>
-        <div class="input-group">
-            <input type="number" name="a" required placeholder="数字1">
-            <input type="number" name="b" required placeholder="数字2">
-            <input type="number" name="c" required placeholder="数字3">
-            <input type="number" name="d" required placeholder="数字4">
-        </div>
-        <button type="submit">計算する</button>
-    </form>
+    </div>
 
     <!-- ローディングアニメーション -->
     <div class="spinner" id="spinner" style="display: none;">
-        <!-- アニメーションの内容 -->
         <div class="loader">計算中...</div>
     </div>
 
+    <!-- 結果表示 -->
     <div id="result" style="display: none;">
         {% if result is not none %}
-            <div class="result-header">
-                <p>作りたい数字: <span>{{ target }}</span></p>
-                <p>入力された数字: <span>{{ a }}, {{ b }}, {{ c }}, {{ d }}</span></p>
-                <p>結果: <span>{{ result }}通り</span></p>
+        <div class="result-header">
+            <p>作りたい数字: <span>{{ target }}</span></p>
+            <p>入力された数字: <span>{{ a }}, {{ b }}, {{ c }}, {{ d }}</span></p>
+            <p>結果: <span>{{ result }}通り</span></p>
+        </div>
+        {% if result == 0 %}
+        <p class="no-result">残念ながら {{ target }} を作ることはできません。</p>
+        {% else %}
+        <div class="expressions">
+            {% for expr in expressions %}
+            <div class="expression">
+                <span>{{ loop.index }}:</span>
+                <span>{{ expr }}</span>
             </div>
-            {% if result == 0 %}
-                <p class="no-result">残念ながら {{ target }} を作ることはできません。</p>
-            {% else %}
-                <div class="expressions">
-                    {% for expr in expressions %}
-                        <div class="expression">
-                            <span>{{ loop.index }}:</span>
-                            <span>{{ expr }}</span>
-                        </div>
-                    {% endfor %}
-                </div>
-            {% endif %}
-            <!-- 「再度計算する」ボタンを追加 -->
-            <button id="back-button">再度計算する</button>
+            {% endfor %}
+        </div>
+        {% endif %}
+        <!-- 「再度計算する」ボタン -->
+        <button id="back-button">再度計算する</button>
         {% endif %}
     </div>
 
-    <!-- 過去の計算履歴を表示 -->
+    <!-- 計算履歴の表示 -->
+    {% if current_user.is_authenticated %}
     <div class="history">
         <h2>過去の計算履歴</h2>
         {% if histories %}
-            <ul>
-                {% for history in histories %}
-                    <li>
-                        <p>作りたい数字: {{ history.target }}</p>
-                        <p>入力された数字: {{ history.numbers }}</p>
-                        <p>結果: {{ history.result }}通り</p>
-                        <details>
-                            <summary>詳細を見る</summary>
-                            <pre>{{ history.expressions }}</pre>
-                        </details>
-                    </li>
-                {% endfor %}
-            </ul>
+        <ul>
+            {% for history in histories %}
+            <li>
+                <p>作りたい数字: {{ history.target }}</p>
+                <p>入力された数字: {{ history.numbers }}</p>
+                <p>結果: {{ history.result }}通り</p>
+                <details>
+                    <summary>詳細を見る</summary>
+                    <pre>{{ history.expressions }}</pre>
+                </details>
+                <!-- 削除ボタン -->
+                <form action="{{ url_for('delete_history', history_id=history.id) }}" method="post"
+                    style="display: inline;">
+                    <button type="submit" class="delete-button">削除</button>
+                </form>
+            </li>
+            {% endfor %}
+        </ul>
         {% else %}
-            <p>過去の計算履歴はありません。</p>
+        <p>過去の計算履歴はありません。</p>
         {% endif %}
     </div>
+    {% endif %}
 </div>
 
 <!-- 必要なスクリプトを読み込み -->

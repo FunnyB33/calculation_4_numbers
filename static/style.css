@@ -1,7 +1,5 @@
 /* static/style.css */
 
-/* 既存のスタイルはそのままです。必要な部分にメディアクエリを追加します。 */
-
 /* --- 共通スタイル --- */
 
 /* 背景の設定 */
@@ -33,6 +31,28 @@ h1 {
     text-shadow: 0 0 10px #00d4ff;
 }
 
+/* ログインプロンプトのスタイル */
+.login-prompt {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.login-prompt a {
+    color: #21d4fd;
+}
+
+/* 入力フォームとテンキーを包むコンテナ */
+.form-and-keypad {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+/* フォームのスタイル */
+.form-and-keypad form {
+    width: 70%;
+}
+
 /* 入力フォームのスタイル */
 .input-group {
     display: flex;
@@ -61,7 +81,8 @@ h1 {
 }
 
 /* ボタンのスタイル */
-button[type="submit"], #back-button {
+button[type="submit"],
+#back-button {
     width: 100%;
     padding: 15px;
     background: linear-gradient(45deg, #21d4fd 0%, #b721ff 100%);
@@ -74,7 +95,36 @@ button[type="submit"], #back-button {
     transition: background 0.5s;
 }
 
-button[type="submit"]:hover, #back-button:hover {
+button[type="submit"]:hover,
+#back-button:hover {
+    background: linear-gradient(45deg, #b721ff 0%, #21d4fd 100%);
+}
+
+/* テンキーコンテナのスタイル */
+.keypad-container {
+    width: 25%;
+}
+
+.keypad {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+
+.keypad-button {
+    width: 30%;
+    padding: 15px;
+    margin: 5px 0;
+    font-size: 18px;
+    background: linear-gradient(45deg, #21d4fd 0%, #b721ff 100%);
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    cursor: pointer;
+    transition: background 0.5s;
+}
+
+.keypad-button:hover {
     background: linear-gradient(45deg, #b721ff 0%, #21d4fd 100%);
 }
 
@@ -94,9 +144,12 @@ button[type="submit"]:hover, #back-button:hover {
 }
 
 @keyframes pulse {
-    0%, 100% {
+
+    0%,
+    100% {
         text-shadow: 0 0 10px #00d4ff;
     }
+
     50% {
         text-shadow: 0 0 20px #00d4ff;
     }
@@ -141,7 +194,7 @@ button[type="submit"]:hover, #back-button:hover {
     flex-grow: 1;
 }
 
-/* スクロールバーのスタイル（オプション） */
+/* スクロールバーのスタイル */
 .expressions::-webkit-scrollbar {
     width: 6px;
 }
@@ -163,6 +216,10 @@ button[type="submit"]:hover, #back-button:hover {
 
 .logout p {
     font-size: 18px;
+}
+
+.logout a {
+    color: #21d4fd;
 }
 
 /* ヒストリーのスタイル */
@@ -199,9 +256,26 @@ button[type="submit"]:hover, #back-button:hover {
     margin-top: 10px;
 }
 
+/* 削除ボタンのスタイル */
+.delete-button {
+    background-color: #ff4d4d;
+    border: none;
+    border-radius: 5px;
+    color: #fff;
+    padding: 8px 12px;
+    cursor: pointer;
+    transition: background 0.3s;
+    margin-top: 10px;
+}
+
+.delete-button:hover {
+    background-color: #ff1a1a;
+}
+
 /* --- メディアクエリの追加 --- */
 
 @media screen and (max-width: 768px) {
+
     /* コンテナの幅とパディングを調整 */
     .container {
         width: 95%;
@@ -214,6 +288,18 @@ button[type="submit"]:hover, #back-button:hover {
     }
 
     /* 入力フィールドを縦並びにする */
+    .form-and-keypad {
+        flex-direction: column;
+    }
+
+    .keypad-container {
+        display: none;
+    }
+
+    .form-and-keypad form {
+        width: 100%;
+    }
+
     .input-group {
         flex-direction: column;
         align-items: stretch;
@@ -225,23 +311,20 @@ button[type="submit"]:hover, #back-button:hover {
     }
 
     /* ボタンのフォントサイズとパディングを調整 */
-    button[type="submit"], #back-button {
+    button[type="submit"],
+    #back-button {
         font-size: 18px;
         padding: 12px;
     }
 
     /* 結果表示のフォントサイズを調整 */
-    .result-header p, .expression {
+    .result-header p,
+    .expression {
         font-size: 18px;
     }
 
     .expression span:first-child {
         width: 40px;
-    }
-
-    /* スクロールバーの幅を調整 */
-    .expressions::-webkit-scrollbar {
-        width: 4px;
     }
 
     /* ログアウトリンクのスタイル調整 */
@@ -260,21 +343,23 @@ button[type="submit"]:hover, #back-button:hover {
     }
 }
 
-/* さらに小さい画面に対する調整 */
 @media screen and (max-width: 480px) {
+
     /* タイトルのフォントサイズをさらに小さく */
     h1 {
         font-size: 24px;
     }
 
     /* ボタンのフォントサイズを調整 */
-    button[type="submit"], #back-button {
+    button[type="submit"],
+    #back-button {
         font-size: 16px;
         padding: 10px;
     }
 
     /* テキストのフォントサイズを調整 */
-    .result-header p, .expression {
+    .result-header p,
+    .expression {
         font-size: 16px;
     }
 

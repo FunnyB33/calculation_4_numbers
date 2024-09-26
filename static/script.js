@@ -1,12 +1,12 @@
 // static/script.js
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
     var form = document.getElementById('calc-form');
     var spinner = document.getElementById('spinner');
     var resultDiv = document.getElementById('result');
     var backButton = document.getElementById('back-button');
 
-    form.addEventListener('submit', function(event) {
+    form.addEventListener('submit', function (event) {
         // デフォルトのフォーム送信を停止
         event.preventDefault();
 
@@ -16,7 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
         spinner.style.display = 'block';
 
         // 3秒後にフォームを送信
-        setTimeout(function() {
+        setTimeout(function () {
             form.submit();
         }, 3000);
     });
@@ -33,11 +33,24 @@ document.addEventListener('DOMContentLoaded', function() {
 
     // 「再度計算する」ボタンのクリックイベント
     if (backButton) {
-        backButton.addEventListener('click', function() {
+        backButton.addEventListener('click', function () {
             resultDiv.style.display = 'none';
             form.style.display = 'block';
             // 入力フォームを空白にする
             form.reset();
         });
     }
+
+    // テンキーのボタンにイベントリスナーを追加
+    var keypadButtons = document.querySelectorAll('.keypad-button');
+    keypadButtons.forEach(function (button) {
+        button.addEventListener('click', function () {
+            var number = this.getAttribute('data-number');
+            // フォーカスされている入力フィールドに数字を追加
+            var activeElement = document.activeElement;
+            if (activeElement && activeElement.tagName === 'INPUT' && activeElement.type === 'number') {
+                activeElement.value = activeElement.value + number;
+            }
+        });
+    });
 });
